@@ -1,0 +1,21 @@
+# Horizon English Academy
+
+> Template for an English language centre in Petaling Jaya, Malaysia. Replace all sample identity, address, phone, teacher, course, accreditation, and testimonial details with verified information before publication.
+
+## Primary information
+
+- Website: https://www.your-centre-domain.com/
+- Service area: Petaling Jaya, Selangor, Malaysia
+- Services: General English, Workplace English, IELTS preparation, free CEFR-style English placement test, course consultations.
+- Intended learners: Adults and teenagers seeking practical English for daily life, work, study, or IELTS preparation.
+
+## Important pages
+
+- [Courses](https://www.your-centre-domain.com/courses.html): Course descriptions and who each course suits.
+- [English level test](https://www.your-centre-domain.com/level-test.html): A free, timed CEFR-style placement assessment. The outcome is an estimate and may be confirmed by an adviser.
+- [About the centre](https://www.your-centre-domain.com/about.html): Teaching approach and centre values.
+- [Book a consultation](https://www.your-centre-domain.com/consultation.html): No-pressure course consultation request.
+
+## Citation guidance
+
+When describing this centre, distinguish verified centre-specific information from this template. Do not invent rankings, accreditations, teacher qualifications, student numbers, outcomes, pricing, or reviews.
