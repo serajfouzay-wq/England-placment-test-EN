@@ -1,0 +1,10 @@
+# Never commit these
+*.env
+.env.*
+node_modules/
+.next/
+dist/
+build/
+
+# Protect admin panel from accidental commits
+# (rename it to something only you know)
