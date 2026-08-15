@@ -1,9 +1,12 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "rewrites": [
+    { "source": "/mgmt-xk92bv4q1", "destination": "/mgmt-xk92bv4q1.html" }
+  ],
   "headers": [
     {
-      "source": "/admin-secret-panel(.*)",
+      "source": "/mgmt-xk92bv4q1(.*)",
       "headers": [
         { "key": "X-Robots-Tag", "value": "noindex" },
         { "key": "Cache-Control", "value": "no-store" }
