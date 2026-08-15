@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>English Placement Test — Excel English Centre</title>
+<meta name="robots" content="noindex,nofollow"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{
+  --navy:#0b1f3a;--blue:#1a56db;--sky:#38bdf8;
+  --mint:#10b981;--gold:#f59e0b;--rose:#f43f5e;
+  --white:#fff;--off:#f8fafc;--slate1:#f1f5f9;
+  --slate2:#e2e8f0;--slate3:#94a3b8;--slate4:#64748b;
+  --ink:#0f172a;--r:8px;--r2:14px;--r3:22px;
+  --ease:cubic-bezier(.4,0,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;user-select:none;-webkit-user-select:none}
+body{font-family:'Inter',sans-serif;background:var(--navy);color:var(--ink);display:flex;flex-direction:column}
+
+/* ── SCREENS ── */
+.screen{display:none;flex-direction:column;height:100vh;overflow:hidden}
+.screen.active{display:flex}
+
+/* ── WELCOME ── */
+#screen-welcome{
+  align-items:center;justify-content:center;
+  background:linear-gradient(160deg,#0b1f3a 0%,#1a3a6e 100%);
+  padding:24px;
+}
+.welcome-card{
+  background:white;border-radius:28px;padding:48px 44px;
+  max-width:520px;width:100%;text-align:center;
+  box-shadow:0 32px 80px rgba(0,0,0,.35);
+  animation:popIn .5s var(--ease);
+}
+@keyframes popIn{from{opacity:0;transform:scale(.92) translateY(20px)}to{opacity:1;transform:none}}
+.wc-logo{width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,var(--blue),var(--sky));display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 20px;box-shadow:0 8px 24px rgba(26,86,219,.35)}
+.wc-title{font-family:'Bricolage Grotesque',sans-serif;font-size:28px;font-weight:800;color:var(--navy);margin-bottom:8px;line-height:1.1}
+.wc-sub{font-size:14px;color:var(--slate4);margin-bottom:28px;line-height:1.6}
+.wc-sections{display:flex;flex-direction:column;gap:8px;margin-bottom:28px;text-align:left}
+.wc-section{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:var(--r2);background:var(--off);border:1.5px solid var(--slate2)}
+.wc-section-icon{font-size:20px;width:36px;text-align:center}
+.wc-section-info{}
+.wc-section-name{font-size:14px;font-weight:700;color:var(--navy)}
+.wc-section-desc{font-size:12px;color:var(--slate4)}
+.wc-rules{background:rgba(244,63,94,.06);border:1.5px solid rgba(244,63,94,.2);border-radius:var(--r2);padding:14px 16px;margin-bottom:28px;text-align:left}
+.wc-rules p{font-size:12px;color:#c0392b;line-height:1.6;font-weight:500}
+.wc-form input{width:100%;padding:12px 16px;border:2px solid var(--slate2);border-radius:var(--r2);font-family:inherit;font-size:15px;margin-bottom:10px;outline:none;transition:.2s}
+.wc-form input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,86,219,.1)}
+.wc-consent{display:flex;align-items:flex-start;gap:10px;margin-bottom:24px;text-align:left}
+.wc-consent input{margin-top:2px;accent-color:var(--blue);width:16px;height:16px;flex-shrink:0}
+.wc-consent label{font-size:12px;color:var(--slate4);line-height:1.5}
+.btn-start{
+  width:100%;padding:15px;border-radius:var(--r2);border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--blue) 0%,#2563eb 100%);
+  color:white;font-family:inherit;font-size:16px;font-weight:700;
+  box-shadow:0 6px 20px rgba(26,86,219,.35);transition:.25s;
+}
+.btn-start:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(26,86,219,.45)}
+.btn-start:disabled{opacity:.5;pointer-events:none}
+
+/* ── EXAM SHELL ── */
+#screen-exam{background:var(--off)}
+.exam-header{
+  background:white;border-bottom:1px solid var(--slate2);
+  padding:0 24px;height:60px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+}
+.eh-left{display:flex;align-items:center;gap:14px}
+.eh-logo{font-family:'Bricolage Grotesque',sans-serif;font-size:16px;font-weight:800;color:var(--navy)}
+.eh-sep{width:1px;height:24px;background:var(--slate2)}
+.eh-section-tag{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:var(--blue);background:rgba(26,86,219,.08);padding:5px 12px;border-radius:99px}
+
+.progress-bar-wrap{flex:1;max-width:300px}
+.progress-track{height:6px;background:var(--slate2);border-radius:99px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--sky));border-radius:99px;transition:width .5s var(--ease)}
+.progress-label{font-size:11px;color:var(--slate4);font-weight:600;margin-top:4px;text-align:right}
+
+.eh-right{display:flex;align-items:center;gap:12px}
+.timer{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:17px;font-weight:700;color:var(--navy);
+  background:var(--off);border:1.5px solid var(--slate2);
+  padding:6px 14px;border-radius:var(--r);
+  min-width:70px;text-align:center;
+}
+.timer.warning{color:var(--rose);border-color:var(--rose);animation:pulse .8s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.anti-cheat-badge{
+  font-size:11px;font-weight:700;color:var(--slate4);
+  border:1.5px solid var(--slate2);padding:4px 10px;border-radius:99px;
+  display:flex;align-items:center;gap:5px;
+}
+
+/* ── EXAM BODY ── */
+.exam-body{flex:1;overflow-y:auto;padding:32px 24px}
+.exam-inner{max-width:720px;margin:0 auto}
+.q-header{margin-bottom:24px}
+.q-section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--blue);margin-bottom:6px}
+.q-title{font-family:'Bricolage Grotesque',sans-serif;font-size:20px;font-weight:700;color:var(--navy);line-height:1.3}
+
+/* QUESTION CARD */
+.q-card{
+  background:white;border-radius:var(--r3);padding:28px;
+  box-shadow:0 4px 20px rgba(11,31,58,.08);
+  border:1.5px solid var(--slate2);
+  animation:slideUp .3s var(--ease);
+}
+@keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.q-number{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--slate3);margin-bottom:12px}
+.q-text{font-size:17px;font-weight:600;color:var(--navy);line-height:1.6;margin-bottom:20px}
+
+/* AUDIO PLAYER */
+.audio-player{
+  display:flex;align-items:center;gap:14px;
+  background:linear-gradient(135deg,#eff6ff,#dbeafe);
+  border:1.5px solid #bfdbfe;border-radius:var(--r2);
+  padding:14px 18px;margin-bottom:20px;
+}
+.play-btn{
+  width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;
+  background:var(--blue);color:white;font-size:18px;flex-shrink:0;
+  transition:.2s;display:flex;align-items:center;justify-content:center;
+}
+.play-btn:hover{background:#2563eb;transform:scale(1.05)}
+.audio-info{flex:1}
+.audio-label{font-size:12px;font-weight:700;color:var(--blue);margin-bottom:3px}
+.audio-progress{height:4px;background:rgba(26,86,219,.2);border-radius:99px;overflow:hidden}
+.audio-progress-fill{height:100%;background:var(--blue);width:0%;transition:width .1s linear}
+.audio-time{font-size:11px;color:var(--slate4);margin-top:4px;font-weight:500}
+
+/* IMAGE */
+.q-image{width:100%;max-height:280px;object-fit:contain;border-radius:var(--r2);margin-bottom:20px;border:1.5px solid var(--slate2)}
+
+/* MCQ OPTIONS */
+.options{display:grid;gap:10px}
+.opt-btn{
+  width:100%;text-align:left;padding:14px 18px;border-radius:var(--r2);
+  border:2px solid var(--slate2);background:var(--off);
+  font-family:inherit;font-size:15px;color:var(--ink);cursor:pointer;
+  display:flex;align-items:center;gap:13px;
+  transition:border-color .15s,background .15s,transform .15s;
+}
+.opt-btn:hover{border-color:var(--blue);background:white;transform:translateX(3px)}
+.opt-btn.selected{border-color:var(--blue);background:rgba(26,86,219,.06);font-weight:600;color:var(--navy)}
+.opt-letter{width:28px;height:28px;border-radius:50%;background:rgba(26,86,219,.1);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;transition:.15s}
+.opt-btn.selected .opt-letter{background:var(--blue);color:white}
+
+/* WRITING */
+.writing-area{width:100%;min-height:160px;padding:14px 16px;border:2px solid var(--slate2);border-radius:var(--r2);font-family:inherit;font-size:15px;color:var(--ink);resize:vertical;outline:none;transition:.2s;background:var(--off);line-height:1.7}
+.writing-area:focus{border-color:var(--blue);background:white;box-shadow:0 0 0 3px rgba(26,86,219,.08)}
+.writing-hint{font-size:12px;color:var(--slate4);margin-top:8px}
+.word-count{font-size:12px;color:var(--blue);font-weight:600;margin-top:6px}
+
+/* SPEAKING */
+.speaking-box{text-align:center;padding:20px}
+.speaking-preview{
+  width:100%;max-width:400px;border-radius:var(--r2);background:#000;
+  aspect-ratio:4/3;margin:0 auto 20px;border:2px solid var(--slate2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:48px;overflow:hidden;position:relative;
+}
+.speaking-preview video{width:100%;height:100%;object-fit:cover}
+.speaking-status{font-size:14px;color:var(--slate4);margin-bottom:16px;min-height:22px}
+.speaking-controls{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.btn-record{
+  padding:12px 24px;border-radius:var(--r2);border:none;cursor:pointer;
+  font-family:inherit;font-size:15px;font-weight:700;transition:.25s;
+  display:flex;align-items:center;gap:8px;
+}
+.btn-record.start{background:var(--rose);color:white;box-shadow:0 4px 16px rgba(244,63,94,.35)}
+.btn-record.stop{background:var(--slate4);color:white}
+.btn-record.preview{background:var(--mint);color:white}
+.recording-indicator{
+  position:absolute;top:12px;left:12px;
+  background:var(--rose);color:white;font-size:11px;font-weight:700;
+  padding:4px 10px;border-radius:99px;
+  display:none;align-items:center;gap:6px;
+}
+.recording-indicator.active{display:flex}
+.rec-dot{width:8px;height:8px;border-radius:50%;background:white;animation:pulse .8s infinite}
+.speaking-timer{font-family:'Bricolage Grotesque',sans-serif;font-size:32px;font-weight:800;color:var(--rose);margin-bottom:8px;min-height:40px}
+
+/* NAV */
+.exam-footer{
+  background:white;border-top:1px solid var(--slate2);
+  padding:14px 24px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+}
+.ef-info{font-size:13px;color:var(--slate4);font-weight:500}
+.nav-btns{display:flex;gap:10px}
+.btn-nav{
+  padding:11px 22px;border-radius:var(--r2);font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:.2s;border:none;
+}
+.btn-prev{background:var(--off);color:var(--slate4);border:2px solid var(--slate2)}
+.btn-prev:hover{border-color:var(--blue);color:var(--blue)}
+.btn-next{background:linear-gradient(135deg,var(--blue),#2563eb);color:white;box-shadow:0 4px 14px rgba(26,86,219,.3)}
+.btn-next:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(26,86,219,.4)}
+.btn-next:disabled{opacity:.4;pointer-events:none}
+
+/* ── SECTION INTRO ── */
+#screen-section-intro{
+  align-items:center;justify-content:center;
+  background:linear-gradient(160deg,var(--navy),#1a3a6e);
+  padding:24px;
+}
+.section-intro-card{
+  background:white;border-radius:28px;padding:48px 44px;
+  max-width:500px;width:100%;text-align:center;
+  box-shadow:0 32px 80px rgba(0,0,0,.35);
+  animation:popIn .4s var(--ease);
+}
+.si-icon{font-size:64px;margin-bottom:20px;display:block;animation:bounce 1s ease infinite alternate}
+@keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-10px)}}
+.si-title{font-family:'Bricolage Grotesque',sans-serif;font-size:32px;font-weight:800;color:var(--navy);margin-bottom:10px}
+.si-desc{font-size:15px;color:var(--slate4);line-height:1.7;margin-bottom:8px}
+.si-meta{display:flex;justify-content:center;gap:20px;margin:20px 0 28px;flex-wrap:wrap}
+.si-meta-item{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--slate4);font-weight:600}
+.si-instructions{background:rgba(26,86,219,.06);border:1.5px solid rgba(26,86,219,.15);border-radius:var(--r2);padding:14px 18px;margin-bottom:28px;text-align:left}
+.si-instructions p{font-size:14px;color:var(--navy);line-height:1.6}
+.btn-begin{
+  width:100%;padding:15px;border-radius:var(--r2);border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--blue),#2563eb);
+  color:white;font-family:inherit;font-size:16px;font-weight:700;
+  box-shadow:0 6px 20px rgba(26,86,219,.35);transition:.25s;
+}
+.btn-begin:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(26,86,219,.45)}
+
+/* ── LEAD CAPTURE ── */
+#screen-lead{
+  align-items:center;justify-content:center;
+  background:linear-gradient(160deg,#0b1f3a,#1a3a6e);
+  padding:24px;
+}
+.lead-card{
+  background:white;border-radius:28px;overflow:hidden;
+  max-width:480px;width:100%;
+  box-shadow:0 32px 80px rgba(0,0,0,.35);
+  animation:popIn .4s var(--ease);
+}
+.lead-top{background:linear-gradient(135deg,var(--navy),var(--blue));padding:32px;text-align:center;color:white}
+.lead-top .lt-icon{font-size:48px;margin-bottom:12px;display:block}
+.lead-top h2{font-family:'Bricolage Grotesque',sans-serif;font-size:24px;font-weight:800;margin-bottom:6px}
+.lead-top p{opacity:.8;font-size:14px;line-height:1.5}
+.lead-body{padding:32px}
+.lf{margin-bottom:14px}
+.lf label{display:block;font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.lf input{width:100%;padding:12px 16px;border:2px solid var(--slate2);border-radius:var(--r2);font-family:inherit;font-size:15px;outline:none;transition:.2s;background:var(--off)}
+.lf input:focus{border-color:var(--blue);background:white;box-shadow:0 0 0 3px rgba(26,86,219,.08)}
+.lf-consent{display:flex;gap:10px;align-items:flex-start;margin:16px 0 22px}
+.lf-consent input{width:16px;height:16px;margin-top:2px;accent-color:var(--blue);flex-shrink:0}
+.lf-consent label{font-size:12px;color:var(--slate4);line-height:1.5}
+.btn-submit{
+  width:100%;padding:14px;border-radius:var(--r2);border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--blue),#2563eb);
+  color:white;font-family:inherit;font-size:16px;font-weight:700;
+  box-shadow:0 4px 16px rgba(26,86,219,.3);transition:.25s;
+}
+.btn-submit:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(26,86,219,.4)}
+.btn-submit:disabled{opacity:.5;pointer-events:none}
+.form-error{color:var(--rose);font-size:13px;margin-top:10px;display:none}
+
+/* ── RESULT ── */
+#screen-result{overflow-y:auto;background:var(--off)}
+.result-inner{max-width:680px;margin:0 auto;padding:48px 24px}
+.result-badge{
+  width:140px;height:140px;border-radius:50%;margin:0 auto 20px;
+  display:flex;align-items:center;justify-content:center;
+  animation:badgePop .7s cubic-bezier(.34,1.56,.64,1) forwards;
+  position:relative;
+}
+@keyframes badgePop{from{transform:scale(0) rotate(-20deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+.rb-ring{position:absolute;inset:-6px;border-radius:50%;border:4px dashed;opacity:.4;animation:spin 8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.rb-inner{width:110px;height:110px;border-radius:50%;background:white;box-shadow:0 8px 30px rgba(0,0,0,.12);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.rb-level{font-family:'Bricolage Grotesque',sans-serif;font-size:42px;font-weight:800;line-height:1}
+.rb-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate4)}
+.result-title{font-family:'Bricolage Grotesque',sans-serif;font-size:28px;font-weight:800;color:var(--navy);text-align:center;margin-bottom:8px}
+.result-tagline{font-size:15px;color:var(--slate4);text-align:center;margin-bottom:36px;line-height:1.6;max-width:460px;margin-left:auto;margin-right:auto}
+
+.score-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.score-box{background:white;border-radius:var(--r2);padding:18px;text-align:center;border:1.5px solid var(--slate2);box-shadow:0 2px 12px rgba(11,31,58,.06)}
+.sb-num{font-family:'Bricolage Grotesque',sans-serif;font-size:26px;font-weight:800;color:var(--navy);display:block;line-height:1}
+.sb-label{font-size:11px;color:var(--slate4);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-top:4px}
+
+.result-card{background:white;border-radius:var(--r3);padding:24px;margin-bottom:16px;border:1.5px solid var(--slate2);box-shadow:0 2px 12px rgba(11,31,58,.06)}
+.rc-title{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.score-bar-wrap{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.score-bar-label{font-size:13px;font-weight:600;color:var(--ink);min-width:80px}
+.score-bar-track{flex:1;height:8px;background:var(--slate1);border-radius:99px;overflow:hidden}
+.score-bar-fill{height:100%;border-radius:99px;transition:width 1.2s var(--ease)}
+.score-bar-pct{font-size:13px;font-weight:700;min-width:36px;text-align:right}
+
+.rec-banner{
+  background:linear-gradient(135deg,var(--navy),var(--blue));
+  border-radius:var(--r3);padding:28px;color:white;margin-bottom:16px;
+}
+.rec-label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.7;margin-bottom:8px}
+.rec-course{font-family:'Bricolage Grotesque',sans-serif;font-size:22px;font-weight:800;margin-bottom:8px}
+.rec-desc{font-size:14px;opacity:.85;line-height:1.6;margin-bottom:20px}
+.btn-wa{display:inline-flex;align-items:center;gap:8px;background:#25d366;color:white;padding:12px 22px;border-radius:var(--r2);border:none;cursor:pointer;font-family:inherit;font-size:15px;font-weight:700;text-decoration:none;transition:.2s}
+.btn-wa:hover{background:#1ebe5d;transform:translateY(-1px)}
+
+/* ── ANTI-CHEAT OVERLAY ── */
+#anti-cheat-overlay{
+  display:none;position:fixed;inset:0;z-index:9999;
+  background:rgba(11,31,58,.97);backdrop-filter:blur(10px);
+  align-items:center;justify-content:center;
+  flex-direction:column;text-align:center;padding:24px;
+}
+#anti-cheat-overlay.show{display:flex}
+.ac-icon{font-size:64px;margin-bottom:16px;animation:shake .3s ease 3}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.ac-title{font-family:'Bricolage Grotesque',sans-serif;font-size:28px;font-weight:800;color:white;margin-bottom:10px}
+.ac-desc{font-size:15px;color:rgba(255,255,255,.75);max-width:400px;margin-bottom:24px;line-height:1.6}
+.ac-count{font-family:'Bricolage Grotesque',sans-serif;font-size:48px;font-weight:800;color:var(--rose);margin-bottom:8px}
+.ac-count-label{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:24px}
+.btn-return{padding:13px 28px;border-radius:var(--r2);border:none;cursor:pointer;background:var(--blue);color:white;font-family:inherit;font-size:15px;font-weight:700;transition:.2s}
+.btn-return:hover{background:#2563eb}
+
+/* ── FULLSCREEN PROMPT ── */
+#fs-prompt{
+  display:none;position:fixed;inset:0;z-index:9998;
+  background:rgba(11,31,58,.95);backdrop-filter:blur(10px);
+  align-items:center;justify-content:center;flex-direction:column;
+  text-align:center;padding:24px;
+}
+#fs-prompt.show{display:flex}
+.fsp-icon{font-size:56px;margin-bottom:16px}
+.fsp-title{font-family:'Bricolage Grotesque',sans-serif;font-size:26px;font-weight:800;color:white;margin-bottom:10px}
+.fsp-desc{font-size:14px;color:rgba(255,255,255,.75);margin-bottom:24px;max-width:380px;line-height:1.6}
+.btn-fs{padding:14px 32px;border-radius:var(--r2);border:none;cursor:pointer;background:var(--blue);color:white;font-family:inherit;font-size:16px;font-weight:700;box-shadow:0 6px 20px rgba(26,86,219,.4);transition:.25s}
+.btn-fs:hover{transform:translateY(-2px)}
+
+/* Loading */
+.spinner{display:inline-block;width:20px;height:20px;border:3px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── RESPONSIVE ── */
+@media(max-width:600px){
+  .welcome-card,.section-intro-card,.lead-card{padding:28px 20px;border-radius:20px}
+  .score-grid{grid-template-columns:repeat(2,1fr)}
+  .exam-header{padding:0 12px}
+  .exam-body{padding:16px 12px}
+  .exam-footer{padding:10px 12px}
+}
+</style>
+</head>
+<body>
+
+<!-- ── FULLSCREEN PROMPT ── -->
+<div id="fs-prompt">
+  <div class="fsp-icon">⛶</div>
+  <h2 class="fsp-title">This exam requires fullscreen</h2>
+  <p class="fsp-desc">To maintain exam integrity, the test must run in fullscreen mode. Please click below to enter fullscreen and begin.</p>
+  <button class="btn-fs" onclick="enterFullscreen()">Enter Fullscreen & Start →</button>
+</div>
+
+<!-- ── ANTI-CHEAT OVERLAY ── -->
+<div id="anti-cheat-overlay">
+  <div class="ac-icon">⚠️</div>
+  <h2 class="ac-title">You left the exam window</h2>
+  <p class="ac-desc">Switching tabs or leaving fullscreen is not allowed during the exam. This incident has been recorded.</p>
+  <div class="ac-count" id="ac-count">3</div>
+  <div class="ac-count-label">warnings remaining</div>
+  <button class="btn-return" onclick="returnToExam()">Return to Exam</button>
+</div>
+
+<!-- ── SCREEN 1: WELCOME ── -->
+<div class="screen active" id="screen-welcome">
+  <div class="welcome-card">
+    <div class="wc-logo">📝</div>
+    <h1 class="wc-title">English Placement Test</h1>
+    <p class="wc-sub">Excel English Centre · Petaling Jaya</p>
+
+    <div class="wc-sections" id="wc-sections-list">
+      <!-- filled by JS -->
+    </div>
+
+    <div class="wc-rules">
+      <p>⚠️ <strong>Important:</strong> This exam runs in fullscreen. Do not switch tabs, close the window, or exit fullscreen — each violation is recorded and may affect your result.</p>
+    </div>
+
+    <div class="wc-form">
+      <input type="text" id="st-name" placeholder="Full Name" autocomplete="name"/>
+      <input type="email" id="st-email" placeholder="Email Address" autocomplete="email"/>
+      <input type="tel" id="st-phone" placeholder="WhatsApp Number" autocomplete="tel"/>
+    </div>
+    <div class="wc-consent">
+      <input type="checkbox" id="st-consent"/>
+      <label for="st-consent">I agree to have my answers and video recording reviewed by Excel English Centre staff (PDPA compliant)</label>
+    </div>
+    <button class="btn-start" id="btn-start" onclick="beginTest()">Begin Exam →</button>
+  </div>
+</div>
+
+<!-- ── SCREEN 2: SECTION INTRO ── -->
+<div class="screen" id="screen-section-intro">
+  <div class="section-intro-card">
+    <span class="si-icon" id="si-icon">🎧</span>
+    <h2 class="si-title" id="si-title">Listening</h2>
+    <p class="si-desc" id="si-desc">Listen carefully and answer each question.</p>
+    <div class="si-meta">
+      <div class="si-meta-item">📊 <span id="si-q-count">10 questions</span></div>
+      <div class="si-meta-item">⏱ <span id="si-time">No time limit</span></div>
+    </div>
+    <div class="si-instructions">
+      <p id="si-instructions">Listen to the audio clip, then choose the correct answer from the options provided.</p>
+    </div>
+    <button class="btn-begin" id="btn-begin-section" onclick="beginSection()">Begin Section →</button>
+  </div>
+</div>
+
+<!-- ── SCREEN 3: EXAM ── -->
+<div class="screen" id="screen-exam">
+  <div class="exam-header">
+    <div class="eh-left">
+      <div class="eh-logo">Excel English</div>
+      <div class="eh-sep"></div>
+      <div class="eh-section-tag" id="eh-section-tag">🎧 Listening</div>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+      </div>
+      <div class="progress-label" id="progress-label">0 / 0</div>
+    </div>
+    <div class="eh-right">
+      <div class="timer" id="timer" style="display:none">00:00</div>
+      <div class="anti-cheat-badge">🔒 Monitored</div>
+    </div>
+  </div>
+
+  <div class="exam-body">
+    <div class="exam-inner" id="question-area">
+      <!-- rendered by JS -->
+    </div>
+  </div>
+
+  <div class="exam-footer">
+    <div class="ef-info" id="ef-info">Question 1 of 10</div>
+    <div class="nav-btns">
+      <button class="btn-nav btn-prev" id="btn-prev" onclick="prevQuestion()" style="visibility:hidden">← Back</button>
+      <button class="btn-nav btn-next" id="btn-next" onclick="nextQuestion()" disabled>Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── SCREEN 4: LEAD CAPTURE ── -->
+<div class="screen" id="screen-lead">
+  <div class="lead-card">
+    <div class="lead-top">
+      <span class="lt-icon">🎉</span>
+      <h2>Test Complete!</h2>
+      <p>Enter your details to receive your CEFR result, section scores, and course recommendation</p>
+    </div>
+    <div class="lead-body">
+      <div class="lf"><label>Full Name</label><input type="text" id="ld-name" placeholder="Ahmad Razif" autocomplete="name"/></div>
+      <div class="lf"><label>Email Address</label><input type="email" id="ld-email" placeholder="you@gmail.com" autocomplete="email"/></div>
+      <div class="lf"><label>WhatsApp Number</label><input type="tel" id="ld-phone" placeholder="+60 12-345 6789" autocomplete="tel"/></div>
+      <div class="lf-consent">
+        <input type="checkbox" id="ld-consent"/>
+        <label for="ld-consent">I consent to receive my results and course information from Excel English Centre (PDPA compliant)</label>
+      </div>
+      <button class="btn-submit" id="btn-submit" onclick="submitLead()">
+        <span id="submit-text">See My Result →</span>
+      </button>
+      <div class="form-error" id="form-error"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SCREEN 5: RESULT ── -->
+<div class="screen" id="screen-result">
+  <div class="result-inner">
+    <div class="result-badge" id="result-badge">
+      <div class="rb-ring" id="rb-ring" style="border-color:#38bdf8"></div>
+      <div class="rb-inner">
+        <div class="rb-level" id="rb-level" style="color:#38bdf8">B1</div>
+        <div class="rb-label">CEFR</div>
+      </div>
+    </div>
+    <h2 class="result-title" id="result-title">Intermediate</h2>
+    <p class="result-tagline" id="result-tagline"></p>
+
+    <div class="score-grid" id="score-grid"></div>
+
+    <div class="result-card">
+      <div class="rc-title">📊 Section Breakdown</div>
+      <div id="section-bars"></div>
+    </div>
+
+    <div class="rec-banner">
+      <div class="rec-label">📌 Recommended for you</div>
+      <div class="rec-course" id="rec-course">General English — Intermediate</div>
+      <div class="rec-desc" id="rec-desc">Based on your performance across all four sections.</div>
+      <a class="btn-wa" id="btn-wa" href="#" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.128.558 4.122 1.532 5.852L.057 23.5l5.797-1.515A11.946 11.946 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.044-1.394l-.36-.214-3.744.979.999-3.645-.235-.374A9.818 9.818 0 1112 21.818z"/></svg>
+        Chat on WhatsApp
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════
+// CONFIG — replace with your values
+// ══════════════════════════════════════════════════════
+const SUPABASE_URL  = 'https://bapodlosrkhttprtqoiq.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJhcG9kbG9zcmtodHRwcnRxb2lxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU4NDU5NzQsImV4cCI6MjEwMTQyMTk3NH0.Bjib1AbpjTPWUiTj6HE8G2RiYJDgwQQXWXcNyoWkbdU';
+const WA_NUMBER     = '60123456789';
+const MAX_WARNINGS  = 3;
+
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+// ══════════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════════
+let sections    = [];   // section configs from DB
+let questions   = {};   // { section_key: [questions] }
+let sectionIdx  = 0;    // which section we're on
+let qIdx        = 0;    // question index within section
+let answers     = {};   // { question_id: {answer, index, score, speakingUrl} }
+let sessionId   = null;
+let timerInterval = null;
+let timeLeft    = 0;
+let warnings    = MAX_WARNINGS;
+let mediaRecorder = null;
+let recordedChunks = [];
+let stream      = null;
+let speakingRecorded = false;
+let currentAudio = null;
+
+// ══════════════════════════════════════════════════════
+// BOOT — Load sections & questions from Supabase
+// ══════════════════════════════════════════════════════
+async function boot() {
+  try {
+    // Load active sections in order
+    const { data: sec, error: se } = await sb
+      .from('section_config')
+      .select('*')
+      .eq('is_active', true)
+      .order('sort_order');
+    if (se) throw se;
+    sections = sec;
+
+    // Load all active questions
+    const { data: qs, error: qe } = await sb
+      .from('questions')
+      .select('*')
+      .eq('is_active', true)
+      .order('sort_order');
+    if (qe) throw qe;
+
+    // Group by section
+    sections.forEach(s => { questions[s.section_key] = []; });
+    qs.forEach(q => {
+      if (questions[q.section_key]) questions[q.section_key].push(q);
+    });
+
+    // Render welcome section list
+    renderWelcomeSections();
+
+  } catch(err) {
+    console.error('Failed to load exam data:', err);
+    // fallback: use demo data so it still works
+    loadDemoData();
+  }
+}
+
+function loadDemoData() {
+  sections = [
+    { section_key:'listening', label:'Listening', icon:'🎧', sort_order:1, time_limit:0, instructions:'Listen to the audio and choose the correct answer.' },
+    { section_key:'reading',   label:'Reading',   icon:'📖', sort_order:2, time_limit:0, instructions:'Read carefully and select the best answer.' },
+    { section_key:'speaking',  label:'Speaking',  icon:'🎤', sort_order:3, time_limit:0, instructions:'Record yourself answering the question clearly.' },
+    { section_key:'writing',   label:'Writing',   icon:'✍️', sort_order:4, time_limit:0, instructions:'Write your answer in full sentences.' },
+  ];
+  questions = {
+    listening: [
+      { id:'l1', section_key:'listening', question_type:'mcq', question_text:'[Demo] You hear someone say they will meet at 3pm. What time is the meeting?', audio_url:null, options:['2pm','3pm','4pm','5pm'], correct_index:1, points:1 },
+      { id:'l2', section_key:'listening', question_type:'mcq', question_text:'[Demo] The speaker mentions they prefer coffee. What do they prefer?', audio_url:null, options:['Tea','Coffee','Juice','Water'], correct_index:1, points:1 },
+    ],
+    reading: [
+      { id:'r1', section_key:'reading', question_type:'mcq', question_text:'Read: "The committee unanimously agreed to adopt the new framework." What does "unanimously" mean?', image_url:null, options:['With disagreement','With full agreement','By majority vote','With reluctance'], correct_index:1, points:1 },
+      { id:'r2', section_key:'reading', question_type:'mcq', question_text:'Which sentence is grammatically correct?', image_url:null, options:["She don't like coffee.","She doesn't like coffee.","She not like coffee.","She no like coffee."], correct_index:1, points:1 },
+    ],
+    speaking: [
+      { id:'sp1', section_key:'speaking', question_type:'speaking', question_text:'Introduce yourself and describe your daily routine in English. Speak for at least 60 seconds.', points:5 },
+      { id:'sp2', section_key:'speaking', question_type:'speaking', question_text:'Describe a memorable experience you had recently. Where were you? What happened? How did you feel?', points:5 },
+    ],
+    writing: [
+      { id:'w1', section_key:'writing', question_type:'written', question_text:'Write a short paragraph about your goals for learning English. (50–100 words)', answer_keywords:['learn','goal','improve','english','job','speak','career','communicate'], score_threshold:40, points:5 },
+      { id:'w2', section_key:'writing', question_type:'written', question_text:'Describe the advantages and disadvantages of learning English online versus in a classroom.', answer_keywords:['advantage','disadvantage','online','classroom','flexible','expensive','interaction','convenient'], score_threshold:40, points:5 },
+    ],
+  };
+  renderWelcomeSections();
+}
+
+function renderWelcomeSections() {
+  const container = document.getElementById('wc-sections-list');
+  container.innerHTML = sections.map(s => `
+    <div class="wc-section">
+      <div class="wc-section-icon">${s.icon}</div>
+      <div class="wc-section-info">
+        <div class="wc-section-name">${s.label}</div>
+        <div class="wc-section-desc">${(questions[s.section_key]||[]).length} questions${s.time_limit ? ' · ' + formatTime(s.time_limit) : ''}</div>
+      </div>
+    </div>`).join('');
+}
+
+// ══════════════════════════════════════════════════════
+// FULLSCREEN & ANTI-CHEAT
+// ══════════════════════════════════════════════════════
+function enterFullscreen() {
+  const el = document.documentElement;
+  if (el.requestFullscreen) el.requestFullscreen();
+  else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+  else if (el.mozRequestFullScreen) el.mozRequestFullScreen();
+  document.getElementById('fs-prompt').classList.remove('show');
+  showScreen('screen-welcome');
+}
+
+document.addEventListener('fullscreenchange', handleFSChange);
+document.addEventListener('webkitfullscreenchange', handleFSChange);
+function handleFSChange() {
+  if (!document.fullscreenElement && currentScreen() !== 'screen-welcome' && currentScreen() !== 'screen-result') {
+    triggerWarning('Exited fullscreen');
+  }
+}
+
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden && currentScreen() === 'screen-exam') {
+    triggerWarning('Tab switch detected');
+  }
+});
+
+window.addEventListener('blur', () => {
+  if (currentScreen() === 'screen-exam') triggerWarning('Window lost focus');
+});
+
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('keydown', e => {
+  if (['F12','F11'].includes(e.key) || (e.ctrlKey && ['u','s','a','c','v','p'].includes(e.key.toLowerCase()))) {
+    e.preventDefault();
+  }
+});
+
+function triggerWarning(reason) {
+  warnings--;
+  document.getElementById('ac-count').textContent = Math.max(warnings, 0);
+  document.getElementById('anti-cheat-overlay').classList.add('show');
+  if (sessionId) {
+    sb.from('test_sessions').update({ flagged: true, flag_reason: reason }).eq('id', sessionId).then(()=>{});
+  }
+  if (warnings <= 0) {
+    document.querySelector('.btn-return').textContent = 'Session Terminated — See Results';
+    document.querySelector('.btn-return').onclick = () => { goToLead(); };
+  }
+}
+
+function returnToExam() {
+  document.getElementById('anti-cheat-overlay').classList.remove('show');
+  if (warnings > 0) enterFullscreen();
+}
+
+function currentScreen() {
+  const active = document.querySelector('.screen.active');
+  return active ? active.id : '';
+}
+
+// ══════════════════════════════════════════════════════
+// FLOW
+// ══════════════════════════════════════════════════════
+async function beginTest() {
+  const name    = document.getElementById('st-name').value.trim();
+  const email   = document.getElementById('st-email').value.trim();
+  const phone   = document.getElementById('st-phone').value.trim();
+  const consent = document.getElementById('st-consent').checked;
+  if (!name || !email || !phone || !consent) {
+    alert('Please fill in all fields and give consent.'); return;
+  }
+
+  document.getElementById('btn-start').innerHTML = '<span class="spinner"></span>';
+  document.getElementById('btn-start').disabled = true;
+
+  // Pre-fill lead form
+  document.getElementById('ld-name').value  = name;
+  document.getElementById('ld-email').value = email;
+  document.getElementById('ld-phone').value = phone;
+
+  // Create session in Supabase
+  try {
+    const { data, error } = await sb.from('test_sessions').insert([{
+      full_name: name, email, phone, consent_given: consent,
+      source_url: window.location.href
+    }]).select().single();
+    if (!error) sessionId = data.id;
+  } catch(e) { console.warn('Session create failed:', e); }
+
+  sectionIdx = 0; qIdx = 0;
+  showSectionIntro();
+
+  // Request fullscreen if not already
+  if (!document.fullscreenElement) enterFullscreen();
+}
+
+function showSectionIntro() {
+  const sec = sections[sectionIdx];
+  const qs  = questions[sec.section_key] || [];
+  document.getElementById('si-icon').textContent   = sec.icon;
+  document.getElementById('si-title').textContent  = sec.label;
+  document.getElementById('si-desc').textContent   = `Section ${sectionIdx+1} of ${sections.length}`;
+  document.getElementById('si-q-count').textContent = `${qs.length} question${qs.length!==1?'s':''}`;
+  document.getElementById('si-time').textContent   = sec.time_limit ? formatTime(sec.time_limit) : 'No time limit';
+  document.getElementById('si-instructions').textContent = sec.instructions || '';
+  showScreen('screen-section-intro');
+}
+
+function beginSection() {
+  qIdx = 0;
+  showScreen('screen-exam');
+  updateExamHeader();
+  renderQuestion();
+  startTimer();
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// ══════════════════════════════════════════════════════
+// TIMER
+// ══════════════════════════════════════════════════════
+function startTimer() {
+  clearInterval(timerInterval);
+  const sec = sections[sectionIdx];
+  if (!sec.time_limit) { document.getElementById('timer').style.display='none'; return; }
+  timeLeft = sec.time_limit;
+  document.getElementById('timer').style.display = 'block';
+  updateTimerDisplay();
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    updateTimerDisplay();
+    if (timeLeft <= 60) document.getElementById('timer').classList.add('warning');
+    if (timeLeft <= 0) { clearInterval(timerInterval); nextSection(); }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  document.getElementById('timer').textContent = formatTime(timeLeft);
+}
+
+function formatTime(s) {
+  const m = Math.floor(s/60);
+  return `${String(m).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+}
+
+// ══════════════════════════════════════════════════════
+// QUESTION RENDERING
+// ══════════════════════════════════════════════════════
+function updateExamHeader() {
+  const sec = sections[sectionIdx];
+  const qs  = questions[sec.section_key] || [];
+  const total = getTotalQuestions();
+  const done  = getAnsweredBefore();
+  const pct   = total ? Math.round(((done + qIdx) / total) * 100) : 0;
+  document.getElementById('eh-section-tag').textContent = `${sec.icon} ${sec.label}`;
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = `${done + qIdx} / ${total}`;
+  document.getElementById('ef-info').textContent = `${sec.label} · Question ${qIdx+1} of ${qs.length}`;
+  document.getElementById('btn-prev').style.visibility = qIdx === 0 ? 'hidden' : 'visible';
+}
+
+function getTotalQuestions() {
+  return sections.reduce((a,s) => a + (questions[s.section_key]||[]).length, 0);
+}
+
+function getAnsweredBefore() {
+  let count = 0;
+  for (let i = 0; i < sectionIdx; i++) {
+    count += (questions[sections[i].section_key]||[]).length;
+  }
+  return count;
+}
+
+function renderQuestion() {
+  const sec = sections[sectionIdx];
+  const qs  = questions[sec.section_key] || [];
+  const q   = qs[qIdx];
+  if (!q) return;
+  updateExamHeader();
+
+  const area = document.getElementById('question-area');
+  const nextBtn = document.getElementById('btn-next');
+  const isLast = qIdx === qs.length - 1;
+  const isLastSection = sectionIdx === sections.length - 1;
+  nextBtn.textContent = isLast && isLastSection ? 'Finish Exam →' : isLast ? 'Next Section →' : 'Next →';
+
+  const saved = answers[q.id];
+  nextBtn.disabled = !saved;
+
+  let html = `
+    <div class="q-card">
+      <div class="q-number">Question ${qIdx+1} of ${qs.length}</div>
+      <div class="q-text">${q.question_text}</div>`;
+
+  if (q.audio_url) html += renderAudio(q.audio_url);
+  if (q.image_url) html += `<img src="${q.image_url}" class="q-image" alt="Question image"/>`;
+
+  if (q.question_type === 'mcq') {
+    html += renderMCQ(q, saved);
+  } else if (q.question_type === 'speaking') {
+    html += renderSpeaking(q, saved);
+  } else if (q.question_type === 'written') {
+    html += renderWriting(q, saved);
+  }
+
+  html += `</div>`;
+  area.innerHTML = html;
+
+  // Rebind audio
+  if (q.audio_url) initAudioPlayer(q.audio_url);
+  // Rebind speaking
+  if (q.question_type === 'speaking') initSpeaking(q);
+  // Rebind writing
+  if (q.question_type === 'written') {
+    const ta = document.getElementById('writing-input');
+    if (ta && saved) ta.value = saved.answer;
+    ta && ta.addEventListener('input', () => {
+      const words = ta.value.trim().split(/\s+/).filter(Boolean).length;
+      document.getElementById('word-count').textContent = `${words} words`;
+      answers[q.id] = { answer: ta.value, score: autoScoreWriting(ta.value, q.answer_keywords, q.score_threshold) };
+      nextBtn.disabled = false;
+    });
+  }
+}
+
+function renderAudio(url) {
+  return `
+    <div class="audio-player" id="audio-player">
+      <button class="play-btn" id="play-btn" onclick="toggleAudio()">▶</button>
+      <div class="audio-info">
+        <div class="audio-label">🎧 Listen carefully before answering</div>
+        <div class="audio-progress"><div class="audio-progress-fill" id="audio-prog"></div></div>
+        <div class="audio-time" id="audio-time">0:00</div>
+      </div>
+    </div>`;
+}
+
+function initAudioPlayer(url) {
+  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+  currentAudio = new Audio(url);
+  currentAudio.addEventListener('timeupdate', () => {
+    const pct = (currentAudio.currentTime / currentAudio.duration * 100) || 0;
+    const progEl = document.getElementById('audio-prog');
+    const timeEl = document.getElementById('audio-time');
+    if (progEl) progEl.style.width = pct + '%';
+    if (timeEl) timeEl.textContent = formatTime(Math.floor(currentAudio.currentTime));
+  });
+  currentAudio.addEventListener('ended', () => {
+    const btn = document.getElementById('play-btn');
+    if (btn) btn.textContent = '▶';
+  });
+}
+
+function toggleAudio() {
+  if (!currentAudio) return;
+  const btn = document.getElementById('play-btn');
+  if (currentAudio.paused) { currentAudio.play(); btn.textContent = '⏸'; }
+  else { currentAudio.pause(); btn.textContent = '▶'; }
+}
+
+function renderMCQ(q, saved) {
+  const letters = ['A','B','C','D','E'];
+  const opts = (q.options || []).map((o, i) => `
+    <button class="opt-btn ${saved?.index===i?'selected':''}"
+      onclick="selectMCQ('${q.id}',${i},'${escHtml(typeof o==='string'?o:JSON.stringify(o))}',${q.correct_index},${q.points||1})">
+      <span class="opt-letter">${letters[i]}</span>
+      ${typeof o === 'string' ? o : o}
+    </button>`).join('');
+  return `<div class="options">${opts}</div>`;
+}
+
+function escHtml(s){ return s.replace(/'/g,"&#39;") }
+
+function selectMCQ(qid, idx, text, correctIdx, points) {
+  const isCorrect = idx === correctIdx;
+  answers[qid] = { answer: text, index: idx, is_correct: isCorrect, score: isCorrect ? points : 0 };
+  document.getElementById('btn-next').disabled = false;
+  // Re-render options to show selection
+  const sec = sections[sectionIdx];
+  const q   = (questions[sec.section_key]||[]).find(q=>q.id===qid);
+  if (!q) return;
+  const letters = ['A','B','C','D','E'];
+  const opts = document.querySelectorAll('.opt-btn');
+  opts.forEach((btn, i) => {
+    btn.classList.toggle('selected', i === idx);
+    btn.querySelector('.opt-letter').style.background = i===idx ? 'var(--blue)' : '';
+    btn.querySelector('.opt-letter').style.color = i===idx ? 'white' : '';
+  });
+}
+
+function renderWriting(q, saved) {
+  return `
+    <textarea class="writing-area" id="writing-input" placeholder="Write your answer here...">${saved?.answer||''}</textarea>
+    <div class="writing-hint">Write in full sentences. Your response is automatically assessed.</div>
+    <div class="word-count" id="word-count">${saved ? saved.answer.trim().split(/\s+/).filter(Boolean).length + ' words' : '0 words'}</div>`;
+}
+
+function autoScoreWriting(text, keywords, threshold) {
+  if (!keywords || !keywords.length) return 50;
+  const lower = text.toLowerCase();
+  const hit = keywords.filter(k => lower.includes(k.toLowerCase())).length;
+  const pct = Math.round((hit / keywords.length) * 100);
+  return Math.min(pct, 100);
+}
+
+function renderSpeaking(q, saved) {
+  return `
+    <div class="speaking-box">
+      <div class="speaking-preview" id="speaking-preview">
+        <video id="speaking-video" autoplay muted playsinline></video>
+        <div class="recording-indicator" id="rec-indicator">
+          <span class="rec-dot"></span> REC
+        </div>
+      </div>
+      <div class="speaking-timer" id="speaking-timer"></div>
+      <div class="speaking-status" id="speaking-status">${saved ? '✅ Recording saved' : 'Camera will activate when you start recording'}</div>
+      <div class="speaking-controls">
+        ${saved
+          ? `<button class="btn-record preview" onclick="previewSpeaking()">▶ Preview Recording</button>
+             <button class="btn-record start" onclick="reRecord('${q.id}')">🔄 Re-record</button>`
+          : `<button class="btn-record start" id="btn-rec-start" onclick="startRecording('${q.id}')">🎤 Start Recording</button>`
+        }
+        <button class="btn-record stop" id="btn-rec-stop" onclick="stopRecording('${q.id}')" style="display:none">⏹ Stop & Save</button>
+      </div>
+    </div>`;
+}
+
+// ══════════════════════════════════════════════════════
+// VIDEO RECORDING
+// ══════════════════════════════════════════════════════
+let speakingTimer = null;
+let speakingSeconds = 0;
+
+async function startRecording(qid) {
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+    const video = document.getElementById('speaking-video');
+    video.srcObject = stream;
+    video.muted = true;
+
+    recordedChunks = [];
+    const mimeType = MediaRecorder.isTypeSupported('video/webm;codecs=vp9') ? 'video/webm;codecs=vp9' : 'video/webm';
+    mediaRecorder = new MediaRecorder(stream, { mimeType });
+    mediaRecorder.ondataavailable = e => { if (e.data.size > 0) recordedChunks.push(e.data); };
+    mediaRecorder.start(1000);
+
+    document.getElementById('btn-rec-start').style.display = 'none';
+    document.getElementById('btn-rec-stop').style.display  = '';
+    document.getElementById('rec-indicator').classList.add('active');
+    document.getElementById('speaking-status').textContent = 'Recording… speak clearly';
+
+    speakingSeconds = 0;
+    speakingTimer = setInterval(() => {
+      speakingSeconds++;
+      document.getElementById('speaking-timer').textContent = formatTime(speakingSeconds);
+    }, 1000);
+
+    currentSpeakingQid = qid;
+  } catch(e) {
+    alert('Camera/mic access denied. Please allow access and try again.');
+  }
+}
+
+let currentSpeakingQid = null;
+
+async function stopRecording(qid) {
+  clearInterval(speakingTimer);
+  if (!mediaRecorder) return;
+  mediaRecorder.stop();
+  stream?.getTracks().forEach(t => t.stop());
+
+  document.getElementById('rec-indicator').classList.remove('active');
+  document.getElementById('btn-rec-stop').style.display = 'none';
+  document.getElementById('speaking-status').textContent = 'Saving recording…';
+
+  await new Promise(r => setTimeout(r, 800)); // let chunks collect
+
+  const blob = new Blob(recordedChunks, { type: 'video/webm' });
+  const filename = `speaking_${sessionId||'test'}_${qid}_${Date.now()}.webm`;
+
+  let url = null;
+  try {
+    const { data, error } = await sb.storage.from('speaking-videos').upload(filename, blob, { contentType:'video/webm', upsert:true });
+    if (!error) {
+      const { data: urlData } = sb.storage.from('speaking-videos').getPublicUrl(filename);
+      url = urlData?.publicUrl || filename;
+    }
+  } catch(e) { console.warn('Upload failed:', e); }
+
+  answers[qid] = { answer: '[video]', speaking_url: url || filename, score: 0 };
+  document.getElementById('speaking-status').textContent = '✅ Recording saved! You may continue.';
+  document.getElementById('speaking-timer').textContent = '';
+  document.getElementById('btn-next').disabled = false;
+
+  // Show re-record button
+  const controls = document.querySelector('.speaking-controls');
+  if (controls) controls.innerHTML = `
+    <button class="btn-record preview" onclick="previewSpeaking()">▶ Preview</button>
+    <button class="btn-record start" onclick="reRecord('${qid}')">🔄 Re-record</button>`;
+}
+
+function previewSpeaking() {
+  const blob = new Blob(recordedChunks, { type:'video/webm' });
+  const url  = URL.createObjectURL(blob);
+  const vid  = document.getElementById('speaking-video');
+  vid.srcObject = null;
+  vid.src = url;
+  vid.muted = false;
+  vid.play();
+}
+
+function reRecord(qid) {
+  recordedChunks = [];
+  delete answers[qid];
+  document.getElementById('btn-next').disabled = true;
+  document.getElementById('speaking-timer').textContent = '';
+  const controls = document.querySelector('.speaking-controls');
+  controls.innerHTML = `<button class="btn-record start" id="btn-rec-start" onclick="startRecording('${qid}')">🎤 Start Recording</button>
+    <button class="btn-record stop" id="btn-rec-stop" onclick="stopRecording('${qid}')" style="display:none">⏹ Stop & Save</button>`;
+  document.getElementById('speaking-status').textContent = 'Camera will activate when you start recording';
+}
+
+// ══════════════════════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════════════════════
+function nextQuestion() {
+  const sec = sections[sectionIdx];
+  const qs  = questions[sec.section_key] || [];
+  if (qIdx < qs.length - 1) {
+    qIdx++;
+    renderQuestion();
+  } else {
+    nextSection();
+  }
+}
+
+function prevQuestion() {
+  if (qIdx > 0) { qIdx--; renderQuestion(); }
+}
+
+function nextSection() {
+  clearInterval(timerInterval);
+  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+  if (sectionIdx < sections.length - 1) {
+    sectionIdx++;
+    qIdx = 0;
+    showSectionIntro();
+  } else {
+    goToLead();
+  }
+}
+
+function goToLead() {
+  showScreen('screen-lead');
+  if (document.exitFullscreen) document.exitFullscreen().catch(()=>{});
+}
+
+// ══════════════════════════════════════════════════════
+// LEAD + RESULTS
+// ══════════════════════════════════════════════════════
+async function submitLead() {
+  const name    = document.getElementById('ld-name').value.trim();
+  const email   = document.getElementById('ld-email').value.trim();
+  const phone   = document.getElementById('ld-phone').value.trim();
+  const consent = document.getElementById('ld-consent').checked;
+  const errEl   = document.getElementById('form-error');
+  errEl.style.display = 'none';
+
+  if (!name||!email||!phone){ errEl.textContent='Fill in all fields.'; errEl.style.display='block'; return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ errEl.textContent='Enter a valid email.'; errEl.style.display='block'; return; }
+  if (!consent){ errEl.textContent='Please give your consent.'; errEl.style.display='block'; return; }
+
+  document.getElementById('submit-text').innerHTML = '<span class="spinner"></span> Saving…';
+  document.getElementById('btn-submit').disabled = true;
+
+  const { total, maxScore, sectionScores } = computeScores();
+  const cefr = getCEFR(total, maxScore);
+
+  try {
+    // Update session
+    const { data: session } = await sb.from('test_sessions')
+      .update({ full_name:name, email, phone, consent_given:consent, completed_at:new Date().toISOString(),
+        total_score:total, max_score:maxScore, cefr_level:cefr.level, section_scores:sectionScores })
+      .eq('id', sessionId).select().single();
+
+    // Insert answers
+    const answerRows = [];
+    sections.forEach(sec => {
+      (questions[sec.section_key]||[]).forEach(q => {
+        const a = answers[q.id];
+        if (a) answerRows.push({
+          session_id: sessionId, question_id: q.id, section_key: sec.section_key,
+          question_text: q.question_text,
+          student_answer: a.answer, chosen_index: a.index ?? null,
+          is_correct: a.is_correct ?? null, auto_score: a.score ?? 0,
+          speaking_url: a.speaking_url || null,
+        });
+      });
+    });
+    if (answerRows.length) await sb.from('answers').insert(answerRows);
+  } catch(e) { console.error('Save failed:', e); }
+
+  showResults(computeScores(), getCEFR(computeScores().total, computeScores().maxScore));
+}
+
+function computeScores() {
+  let total = 0, maxScore = 0;
+  const sectionScores = {};
+  sections.forEach(sec => {
+    let s = 0, m = 0;
+    (questions[sec.section_key]||[]).forEach(q => {
+      m += q.points || 1;
+      const a = answers[q.id];
+      if (a) s += a.score || 0;
+    });
+    sectionScores[sec.section_key] = { score: s, max: m, label: sec.label };
+    total += s; maxScore += m;
+  });
+  return { total, maxScore, sectionScores };
+}
+
+const CEFR_MAP = [
+  { level:'A1', name:'Beginner', color:'#9e9e9e', min:0, max:25,
+    tagline:'You\'re at the start of your English journey — a great place to build strong foundations.',
+    course:'Foundation English — Beginner', courseDesc:'Build core vocabulary, basic grammar, and everyday phrases.'},
+  { level:'A2', name:'Elementary', color:'#48bb78', min:26, max:45,
+    tagline:'You can handle simple conversations and understand everyday English.',
+    course:'General English — Elementary', courseDesc:'Expand vocabulary and grammar for confident daily communication.'},
+  { level:'B1', name:'Intermediate', color:'#38bdf8', min:46, max:65,
+    tagline:'You handle everyday conversations confidently and are ready for more complex topics.',
+    course:'General English — Intermediate', courseDesc:'Develop fluency, accuracy, and confidence to express complex ideas.'},
+  { level:'B2', name:'Upper-Intermediate', color:'#5c6bc0', min:66, max:79,
+    tagline:'You have a strong command of English and engage with a wide range of topics.',
+    course:'Business English / IELTS Preparation', courseDesc:'Refine professional communication or prepare for IELTS 6.0–7.0.'},
+  { level:'C1', name:'Advanced', color:'#a855f7', min:80, max:91,
+    tagline:'You use English fluently for academic, professional, and social purposes.',
+    course:'Advanced English & Academic Writing', courseDesc:'Master nuanced language and high-level professional communication.'},
+  { level:'C2', name:'Proficient', color:'#f59e0b', min:92, max:100,
+    tagline:'Near-native proficiency — you understand and express virtually everything with precision.',
+    course:'C2 Proficiency / Cambridge CPE', courseDesc:'Prepare for the highest Cambridge qualification.'},
+];
+
+function getCEFR(score, max) {
+  const pct = max ? Math.round((score/max)*100) : 0;
+  return CEFR_MAP.find(c => pct >= c.min && pct <= c.max) || CEFR_MAP[0];
+}
+
+function showResults({ total, maxScore, sectionScores }, cefr) {
+  document.getElementById('rb-ring').style.borderColor = cefr.color;
+  document.getElementById('rb-level').textContent = cefr.level;
+  document.getElementById('rb-level').style.color  = cefr.color;
+  document.getElementById('result-title').textContent   = cefr.name;
+  document.getElementById('result-tagline').textContent = cefr.tagline;
+
+  // Score grid
+  const pct = maxScore ? Math.round((total/maxScore)*100) : 0;
+  document.getElementById('score-grid').innerHTML = `
+    <div class="score-box"><span class="sb-num">${total}</span><span class="sb-label">Total Score</span></div>
+    <div class="score-box"><span class="sb-num">${maxScore}</span><span class="sb-label">Max Score</span></div>
+    <div class="score-box"><span class="sb-num">${pct}%</span><span class="sb-label">Percentage</span></div>
+    <div class="score-box"><span class="sb-num" style="color:${cefr.color}">${cefr.level}</span><span class="sb-label">CEFR Level</span></div>`;
+
+  // Section bars
+  const bars = Object.values(sectionScores).map(s => {
+    const p = s.max ? Math.round((s.score/s.max)*100) : 0;
+    const col = p >= 70 ? '#10b981' : p >= 40 ? '#f59e0b' : '#f43f5e';
+    return `
+      <div class="score-bar-wrap">
+        <div class="score-bar-label">${s.label}</div>
+        <div class="score-bar-track"><div class="score-bar-fill" style="width:0%;background:${col}" data-w="${p}"></div></div>
+        <div class="score-bar-pct" style="color:${col}">${p}%</div>
+      </div>`;
+  }).join('');
+  document.getElementById('section-bars').innerHTML = bars;
+  setTimeout(() => {
+    document.querySelectorAll('.score-bar-fill').forEach(b => b.style.width = b.dataset.w + '%');
+  }, 200);
+
+  document.getElementById('rec-course').textContent = cefr.course;
+  document.getElementById('rec-desc').textContent   = cefr.courseDesc;
+  const waMsg = encodeURIComponent(`Hi! I just completed the English placement test at Excel English Centre and got ${cefr.level} (${cefr.name}). Score: ${total}/${maxScore}. I'd love to know more about "${cefr.course}".`);
+  document.getElementById('btn-wa').href = `https://wa.me/${WA_NUMBER}?text=${waMsg}`;
+
+  showScreen('screen-result');
+}
+
+// ── INIT ──
+document.getElementById('fs-prompt').classList.add('show');
+boot();
+</script>
+</body>
+</html>
